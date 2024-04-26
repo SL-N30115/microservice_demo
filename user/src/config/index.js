@@ -10,4 +10,5 @@ if (process.env.NODE_ENV !== "prod") {
 module.exports = {
   PORT: process.env.PORT || 8001,
   DB_URI: process.env.MONGODB_URI,
+  JWT_SECRET: process.env.JWT_SECRET,
 };

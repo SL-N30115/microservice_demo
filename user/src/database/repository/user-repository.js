@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const { UserModel } = require("./model");
+const { UserModel } = require("../model");
 
-class userRepository {
+class UserRepository {
   async CreateUser({ username, firstname, lastname, email, password }) {
     const user = new UserModel({
       username,
@@ -29,4 +29,4 @@ class userRepository {
   }
 }
 
-module.exports = userRepository;
+module.exports = UserRepository;
