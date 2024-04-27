@@ -3,7 +3,6 @@ const {
   ValidatePassword,
   GenerateSignature,
   GeneratePassword,
-  FromateData,
   FormateData,
 } = require("../utils");
 
@@ -28,7 +27,7 @@ class UserService {
         });
         return FormateData({ id: existingUser._id, token });
       } else {
-        return FormateData("invalid password" + password);
+        return FormateData("Login Failed");
       }
     }
 
