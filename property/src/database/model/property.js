@@ -7,6 +7,7 @@ const PropertySchema = new Schema({
   description: { type: String, required: true },
   price: { type: Number, required: true },
   location: { type: String, required: true },
+  booked: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 

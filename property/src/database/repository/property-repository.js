@@ -20,6 +20,12 @@ class PropertyRepository {
     return properties;
   }
 
+  async GetAvailableProperties() {
+    const properties = await PropertyModel.find({ booked: false });
+
+    return properties;
+  }
+
   async FindPropertyById(id) {
     const existingProperty = await PropertyModel.findById(id);
 

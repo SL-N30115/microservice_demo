@@ -34,6 +34,19 @@ class PropertyService {
       return FormateData("Error retrieving properties");
     }
   }
+
+  async GetAvailableProperties() {
+    try {
+      const properties = await this.repository.GetAvailableProperties();
+      if (properties.length < 1) {
+        return FormateData("No properties found");
+      }
+      return FormateData({ properties: properties });
+    } catch (error) {
+      console.log(error);
+      return FormateData("Error retrieving properties");
+    }
+  }
 }
 
 module.exports = PropertyService;

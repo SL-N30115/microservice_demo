@@ -18,4 +18,9 @@ module.exports = (app) => {
     const { data } = await service.GetProperties();
     res.json(data);
   });
+
+  app.get("/property/available", async (req, res, next) => {
+    const { data } = await service.GetAvailableProperties();
+    res.json(data);
+  });
 };
