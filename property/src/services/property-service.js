@@ -22,6 +22,19 @@ class PropertyService {
     }
   }
 
+  async UpdatePropertyBooking(propertyID, status) {
+    try {
+      const property = await this.repository.UpdatePropertyBooking(
+        propertyID,
+        status
+      );
+      return FormateData("Property booking updated", property);
+    } catch (error) {
+      console.log(error);
+      return FormateData("Error updating property booking");
+    }
+  }
+
   async GetProperties() {
     try {
       const properties = await this.repository.GetAllProperties();
@@ -45,6 +58,27 @@ class PropertyService {
     } catch (error) {
       console.log(error);
       return FormateData("Error retrieving properties");
+    }
+  }
+
+  async SubscribeEvents(payload) {
+    console.log("Triggering Booking Event");
+
+    payload = JSON.parse(payload);
+
+    const { event, data } = payload;
+
+    const { propertyID } = data;
+
+    switch (event) {
+      case "BOOKING_CREATED":
+        this.UpdatePropertyBooking(propertyID, true);
+        break;
+      case "BOOKING_CANCELLED":
+        this.UpdatePropertyBooking(propertyID, false);
+        break;
+      default:
+        break;
     }
   }
 }

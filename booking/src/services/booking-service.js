@@ -41,6 +41,18 @@ class BookingService {
       return FormateData("Error cancelling booking");
     }
   }
+
+  async GetBookingPayLoad(propertyID, event) {
+    if (propertyID) {
+      const payload = {
+        event: event,
+        data: { propertyID },
+      };
+      return payload;
+    } else {
+      return FormateData("Error getting booking payload");
+    }
+  }
 }
 
 module.exports = BookingService;

@@ -26,6 +26,15 @@ class PropertyRepository {
     return properties;
   }
 
+  async UpdatePropertyBooking(id, status) {
+    const property = await PropertyModel.findById(id);
+    property.booked = status;
+
+    const updatedProperty = await property.save();
+
+    return updatedProperty;
+  }
+
   async FindPropertyById(id) {
     const existingProperty = await PropertyModel.findById(id);
 

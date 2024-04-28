@@ -13,7 +13,12 @@ module.exports = (app, channel) => {
         userID,
       });
 
-      PublishMessage(channel, PROPERTY_SERVICE, JSON.stringify(data));
+      const payload = await bookingService.GetBookingPayLoad(
+        propertyID,
+        "BOOKING_CREATED"
+      );
+
+      PublishMessage(channel, PROPERTY_SERVICE, JSON.stringify(payload));
 
       res.json(data);
     } catch (error) {}
@@ -28,7 +33,12 @@ module.exports = (app, channel) => {
   app.delete("/:bookingId", async (req, res, next) => {
     const { bookingId } = req.params;
     const { data } = await bookingService.CancelBooking(bookingId);
-    PublishMessage(channel, PROPERTY_SERVICE, JSON.stringify(data));
+    const payload = await bookingService.GetBookingPayLoad(
+      propertyID,
+      "BOOKING_CANCELLED"
+    );
+
+    PublishMessage(channel, PROPERTY_SERVICE, JSON.stringify(payload));
     res.json(data);
   });
 };
