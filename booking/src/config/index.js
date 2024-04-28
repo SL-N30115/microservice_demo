@@ -10,4 +10,9 @@ if (process.env.NODE_ENV !== "prod") {
 module.exports = {
   PORT: process.env.PORT || 8004,
   DB_URI: process.env.MONGODB_URI,
+  EXCHANGE_NAME: process.env.EXCHANGE_NAME,
+  MSG_QUEUE_URL: process.env.MSG_QUEUE_URL,
+  BOOKING_SERVICE: "booking_service",
+  PROPERTY_SERVICE: "property_service",
+  QUEUE_NAME: "property_queue",
 };

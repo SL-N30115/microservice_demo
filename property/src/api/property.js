@@ -1,7 +1,10 @@
 const PropertyService = require("../services/property-service");
+const { SubscribeMessage } = require("../utils");
 
-module.exports = (app) => {
+module.exports = (app, channel) => {
   const service = new PropertyService();
+
+  SubscribeMessage(channel, service);
 
   app.post("/property", async (req, res, next) => {
     const { title, description, price, location } = req.body;
