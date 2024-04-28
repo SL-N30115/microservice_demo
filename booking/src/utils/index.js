@@ -32,7 +32,8 @@ module.exports.CreateChannel = async () => {
 
 module.exports.PublishMessage = async (channel, service, msg) => {
   try {
-    channel.publish(EXCHANGE_NAME, service, Buffer.from(msg));
+    const options = { persistent: true, durable: true };
+    channel.publish(EXCHANGE_NAME, service, Buffer.from(msg), options);
     console.log("Message Sent: ", msg);
   } catch (error) {
     throw error;
@@ -43,7 +44,8 @@ module.exports.PublishMessage = async (channel, service, msg) => {
 
 module.exports.SubscribeMessage = async (channel, service) => {
   await channel.assertExchange(EXCHANGE_NAME, "direct", { durable: true });
-  const appQueue = await channel.assertQueue("", { exclusive: true });
+  const queueOptions = { durable: true, exclusive: true };
+  const appQueue = await channel.assertQueue("", queueOptions);
   console.log(` Waiting for messages in queue: ${appQueue.queue}`);
 
   channel.bindQueue(appQueue.queue, EXCHANGE_NAME, BOOKING_SERVICE);

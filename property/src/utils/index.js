@@ -43,20 +43,21 @@ module.exports.PublishMessage = async (channel, binding_key, msg) => {
 
 module.exports.SubscribeMessage = async (channel, service) => {
   await channel.assertExchange(EXCHANGE_NAME, "direct", { durable: true });
-  const appQueue = await channel.assertQueue("", { exclusive: true });
+  const queueOptions = { durable: true };
+  const appQueue = await channel.assertQueue(QUEUE_NAME, queueOptions);
   console.log(` Waiting for messages in queue: ${appQueue.queue}`);
 
   channel.bindQueue(appQueue.queue, EXCHANGE_NAME, PROPERTY_SERVICE);
 
-  channel.consume(
-    appQueue.queue,
-    (data) => {
-      if (data.content) {
-        console.log(`Received: ${data.content.toString()}`);
-        service.SubscribeEvents(data.content.toString());
-      }
-      console.log("[X] received");
-    },
-    { noAck: true }
-  );
+  channel.consume(appQueue.queue, (data) => {
+    if (data.content) {
+      console.log(`Received: ${data.content.toString()}`);
+      service.SubscribeEvents(data.content.toString());
+    }
+    console.log("[X] received");
+    channel.ack(data);
+  }),
+    {
+      noAck: false, // Manual acknowledgment is required
+    };
 };
